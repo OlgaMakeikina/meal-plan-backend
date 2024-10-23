@@ -17,10 +17,15 @@ module.exports.saveMeals = async (req, res) => {
 
 // DELETE
 module.exports.deleteMeal = async (req, res) => {
-    const _id = req.params.id;
-    MealModel.findByIdAndDelete(_id)
-    .then(() => res.send('Deleted a meal'))
-   }
+    const { id } = req.params;  
+    try {
+        await MealModel.findByIdAndDelete(id);
+        res.send('Deleted a meal');
+    } catch (error) {
+        res.status(500).send('Error deleting meal');
+    }
+}
+
 
 // EDIT
 module.exports.editMeal = async (req, res) => {
